@@ -1,4 +1,4 @@
 /*
- * Public API Surface of mechanics
+ * Public API for mechanics
  */
-export * from './lib/example';
+export * from './lib'
