@@ -1,3 +1,6 @@
 export * from './failure'
-export * from './faultEnvelope'
+export * from './fault'
 export * from './sampling'
+export * from './types'
+export * from './utils'
+export * from './envelope'

@@ -1,5 +1,6 @@
 const Wc   = require("../../dist/@youwol/mechanics").Wc
-const math = require('@youwol/math')
+const generator   = require("../../dist/@youwol/mechanics").generator
+// const math = require('@youwol/math')
 
 // ---------------------------------------------------
 const subdivision   = 25
@@ -12,7 +13,7 @@ const lambda        = 0.
 // ---------------------------------------------------
 
 const f = new Wc()
-f.subdivision = subdivision
+f.setNormalsAndArea( generator(subdivision) )
 f.S1 = S1
 f.S3 = S3
 f.lambda = lambda

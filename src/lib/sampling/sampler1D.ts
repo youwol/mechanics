@@ -1,8 +1,33 @@
 import { Axis } from './axis'
-//import { Vector3 } from '@youwol/math';
 
 /**
  * By default the axis is unknown
+ * @example
+ * ```js
+ * const meca = require("@youwol/mechanics")
+ * 
+ * class Algo {
+ *     constructor() {
+ *         this.a_ = 0
+ *     }
+ * 
+ *     set a(v) {this.a_ = v}
+ *     get a()  {return this.a_}
+ * 
+ *     run() {
+ *         console.log(this.a_)
+ *     }
+ * }
+ * 
+ * const algo = new Algo()
+ * 
+ * const sampler = new meca.Sampler1D()
+ * sampler.configure(algo, 'x', 'a', {n: 10, min: 0, max: 1})
+ * 
+ * sampler.forEach( p => {
+ *     algo.run()
+ * })
+ * ```
  * @category Sampling
  */
 export class Sampler1D {
@@ -32,7 +57,10 @@ export class Sampler1D {
      * @param property The property name of this derived class
      * @param params 
      * @example
-     * configure(sampler, 'cohesion', {n:10, min:0, max:1, reverse:false})
+     * ```js
+     * const sampler = new Sampler1D()
+     * sampler.configure(object, 'cohesion', {n:10, min:0, max:1, reverse:false})
+     * ```
      */
     configure(parent: any, property: string, 
         {n=10, min=0, max=1,reverse=false} :
@@ -56,9 +84,11 @@ export class Sampler1D {
 
     /**
      * @example
+     * ```js
      * this.forEach( (_: any) => {
      *    const value = this.compute()
-     *})
+     * })
+     ```
      * @param cb a function callback
      */
     forEach( cb: Function ) {

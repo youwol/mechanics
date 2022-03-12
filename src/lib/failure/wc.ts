@@ -1,4 +1,4 @@
-import { generator } from './generator'
+import { GeneratorType } from '../types'
 
 // Note on Volumetric energy
 // -------------------------
@@ -26,16 +26,14 @@ import { generator } from './generator'
  */
 export class Wc {
     constructor() {
-        this.subdivision = 10
+        //this.subdivision = 10
     }
 
-    get subdivision() {return this.n_}
-    set subdivision(n: number) {
-        const {normals, areas} = generator(n)
-        this.normals = normals
-        this.areas   = areas
+    setNormalsAndArea(na: GeneratorType) {
+        this.normals = na.normals
+        this.areas   = na.areas
     }
-
+    
     /**
      * Get the imposed Sigma1
      */
@@ -166,7 +164,7 @@ export class Wc {
 
     // ----------------------------------------------------------
 
-    private n_        = 10 // subdivision
+    // private n_        = 10 // subdivision
     private friction_ = 0
     private cohesion_ = 0
     private lambda_   = 0

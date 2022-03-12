@@ -1,5 +1,6 @@
 import { generateSphere } from '@youwol/geometry'
 import { vec } from '@youwol/math'
+import { GeneratorType } from './types'
 
 /**
  * Uniformly generate normals and areas on a sphere.
@@ -8,7 +9,7 @@ import { vec } from '@youwol/math'
  * @returns
  * @category Failure
  */
-export function generator(subdivision: number) {
+export function generator(subdivision: number): GeneratorType {
     const {positions, indices} = generateSphere(subdivision)
     const P = positions as Float32Array
 

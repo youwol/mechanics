@@ -1,3 +1,3 @@
-export * from './wc'
-export * from './wcEnvelope'
-export * from './generator'
+export * from './Wc'
+export * from './WcEnvelope2D'
+export * from './WcEnvelope3D'
