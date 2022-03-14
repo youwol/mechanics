@@ -42,10 +42,11 @@ export class Sampler1D {
         if (!this.cx_) throw new Error('X axis is not defined.')
     }
 
-    set sampling(n) {
-        this.nbr_ = n ;
-        if (this.xAxis) this.cx_.sampling = n
-    }
+    // set sampling(n) {
+    //     this.nbr_ = n ;
+    //     if (this.xAxis) this.cx_.sampling = n
+    // }
+    
     get sampling() {return this.nbr_ ;}
 
     get xAxis() {return this.cx_}

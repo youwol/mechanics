@@ -4,7 +4,7 @@ import { maxArray } from '@youwol/math'
 test('Test fault-system-envelope', () => {
     const f = new Wc()
     //f.subdivision = 50
-    f.setNormalsAndArea(  generator(50) )
+    f.setNormalsAndAreas( generator(50) )
     f.S1 = 10
     f.S3 = 5
     f.friction = 0.3

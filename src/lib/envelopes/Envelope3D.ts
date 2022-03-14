@@ -1,20 +1,21 @@
 import { createTyped, Serie } from '@youwol/dataframe'
-import { vec } from '@youwol/math'
-import { Sampler2D } from '../sampling/sampler2D'
-import { validPropertyNames, Algorithm } from '../types'
+import { Sampler3D } from '../sampling/sampler3D'
+import { MinMax, vec } from '@youwol/math'
+import { validPropertyNames } from './types'
+import { GenAlgorithm } from '../types'
 
 /**
  * @category Envelope
  */
-export abstract class Envelope2D extends Sampler2D {
+export class Envelope3D extends Sampler3D {
     private _property: string = 'strain'
-    private algo_: Algorithm = undefined
+    private algo_: GenAlgorithm = undefined
 
-    protected getAlgo(): Algorithm {
+    protected getAlgo(): GenAlgorithm {
         return this.algo_
     }
     
-    protected setAlgo(algo: Algorithm) {
+    protected setAlgo(algo: GenAlgorithm) {
         this.algo_ = algo
     }
 
@@ -24,9 +25,6 @@ export abstract class Envelope2D extends Sampler2D {
         {n=10, min=0, max=1,reverse=false} :
         {n?: number, min?: number, max?: number, reverse?:boolean} = {}): boolean
     {
-        if (this.getAlgo() === undefined) {
-            throw new Error('Algo must be set before any call to setAxis')
-        }
         return super.configure(this.getAlgo(), axeName, property, {n, min, max, reverse})
     }
 
@@ -40,6 +38,27 @@ export abstract class Envelope2D extends Sampler2D {
         this._property = name
     }
 
+    getPositions(normalize: boolean = true) {
+        let total = this.sampling * 3
+        const values = createTyped(Float32Array, total, true)
+        let l = 0
+
+        if (normalize) {
+            // get minmax of position
+            const m = [new MinMax(), new MinMax(), new MinMax()]
+            
+            const normalize_ = (v: number, i: number) => (v-m[i].min)/(m[i].max-m[i].min) // fct
+
+            this.forEach( p => p.forEach( (v,i) => m[i].add(v)) )
+            this.forEach( p => p.forEach( (v, i) => values[l++] = normalize_(v, i)) )
+        }
+        else {
+            this.forEach( p => p.forEach( v => values[l++] = v) )
+        }
+
+        return Serie.create({array: values as Float32Array, itemSize: 3})
+    }
+
     run(): Serie {
         this.checkAxis()
 
@@ -47,7 +66,7 @@ export abstract class Envelope2D extends Sampler2D {
         const values = createTyped(Float32Array, total, true)
 
         let l = 0
-        this.forEach( (v: vec.IVector) => {
+        this.forEach( (v: vec.Vector3) => {
             this.getAlgo().run()
             values[l++] = this.getAlgo()[this._property]
         })
@@ -66,6 +85,12 @@ export abstract class Envelope2D extends Sampler2D {
                 "min": this.yAxis.min,
                 "max": this.yAxis.max,
                 "nbr": this.yAxis.sampling,
+            },
+            "z": {
+                "property": this.zAxis.property,
+                "min": this.zAxis.min,
+                "max": this.zAxis.max,
+                "nbr": this.zAxis.sampling,
             }
         }
         return serie

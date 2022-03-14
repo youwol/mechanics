@@ -50,12 +50,16 @@ export class Sampler2D {
         if (!this.cy_) throw new Error('Y axis is not defined.')
     }
 
-    set sampling(n) {
-        this.nbr_ = n ;
-        if (this.xAxis) this.cx_.sampling = n
-        if (this.yAxis) this.cy_.sampling = n
+    // set sampling(n) {
+    //     this.nbr_ = n ;
+    //     if (this.xAxis) this.cx_.sampling = n
+    //     if (this.yAxis) this.cy_.sampling = n
+    // }
+    
+    get sampling() {
+        this.checkAxis()
+        return this.cx_.sampling * this.cy_.sampling  ;
     }
-    get sampling() {return this.nbr_ ;}
 
     get xAxis() {return this.cx_}
     get yAxis() {return this.cy_}

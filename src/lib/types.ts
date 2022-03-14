@@ -1,24 +1,24 @@
-import { Serie } from "@youwol/dataframe"
 
-export interface Algorithm {
+export interface GenAlgorithm {
     run(): void
-    setNormalsAndArea(na: GeneratorType): void
 }
 
-export type GeneratorType = {
-    normals: Array<[number,number,number]>,
-    areas  : Array<number>
-}
+export type Vector = [number, number, number]
+export type Stress = [number, number, number, number, number, number]
 
-export type SurfaceType = {
-    positions: Serie,
-    indices  : Serie
-}
-
-export const validPropertyNames = [
-    'nbDistortionalPlanes', 
-    'nbVolumetricPlanes', 
-    'distortional', 
-    'volumetric', 
-    'strain'
-]
+/**
+ * @hidden
+ */
+export const clone  = (a: Vector): Vector => [...a]
+/**
+ * @hidden
+ */
+export const scale  = (v: Vector, s: number): Vector => v.map( w => w*s ) as Vector
+/**
+ * @hidden
+ */
+export const dot    = (a:Vector, b: Vector): number  => a.reduce( (acc, cur, i) => acc+cur*b[i], 0)
+/**
+ * @hidden
+ */
+export const sub    = (a: Vector, b: Vector): Vector => a.map( (v,i) => v-b[i] ) as Vector

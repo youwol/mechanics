@@ -11,3 +11,5 @@ coverage/
 junit.xml
 
 src/auto_generated.ts
+
+cdn.zip

@@ -1,4 +1,5 @@
-import { GeneratorType } from '../types'
+import { GeneratorType } from './types'
+import { GenAlgorithm } from '../types'
 
 // Note on Volumetric energy
 // -------------------------
@@ -12,7 +13,6 @@ import { GeneratorType } from '../types'
  * 
  * Initial parameters are
  * ```
- * subdivision = 10
  * friction = 0
  * cohesion = 0
  * lambda   = 0
@@ -22,14 +22,13 @@ import { GeneratorType } from '../types'
  * S2 = 5
  * S3 = 5
  * ```
- * @category Failure
+ * @category Envelope
  */
-export class Wc {
+export class Wc implements GenAlgorithm {
     constructor() {
-        //this.subdivision = 10
     }
 
-    setNormalsAndArea(na: GeneratorType) {
+    setNormalsAndAreas(na: GeneratorType) {
         this.normals = na.normals
         this.areas   = na.areas
     }
@@ -164,7 +163,6 @@ export class Wc {
 
     // ----------------------------------------------------------
 
-    // private n_        = 10 // subdivision
     private friction_ = 0
     private cohesion_ = 0
     private lambda_   = 0
