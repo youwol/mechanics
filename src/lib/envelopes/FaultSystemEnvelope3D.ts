@@ -1,5 +1,5 @@
 import { Envelope3D } from "../envelopes"
-import { SurfaceType } from "./types"
+import { RemoteFunction, SurfaceType } from "./types"
 import { FaultSystem } from "./FaultSystem"
 
 /**
@@ -16,5 +16,9 @@ export class FaultSystemEnvelope3D extends Envelope3D {
         this.system.addSurface(surface)
     }
 
-    get system() { return this.getAlgo() as FaultSystem }
+    set remote(r: RemoteFunction) {
+        (this.getAlgo() as FaultSystem).remote = r
+    }
+
+    private get system() { return this.getAlgo() as FaultSystem }
 }

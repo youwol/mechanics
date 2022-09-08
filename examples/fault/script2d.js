@@ -4,7 +4,7 @@ const math = require("../../../math/dist/@youwol/math")
 const geom = require("../../../geometry/dist/@youwol/geometry")
 const fs   = require('fs')
 
-const dataframe = io.decodeGocadTS( fs.readFileSync('/Users/fmaerten/data/arch/figure-superposition/s1.ts', 'utf8') )[0]
+const dataframe = io.decodeGocadTS( fs.readFileSync('/Users/fmaerten/data/arch/figure-superposition/chamber.ts', 'utf8') )[0]
 
 const env = new meca.FaultSystemEnvelope2D()
 env.addSurface({
@@ -13,10 +13,14 @@ env.addSurface({
 })
 env.system.remote = p => [0,0,0,0,0, -Math.abs(p[2])]
 
+console.log('start')
+
 const N = 50
 env.setAxis('x', 'friction', {n: N, min:0, max:2})
 env.setAxis('y', 'lambda'  , {n: N, min:0, max:1})
 const s = env.run()
+
+console.log('stop')
 
 // --------------------------------------------------
 

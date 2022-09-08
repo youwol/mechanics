@@ -30,5 +30,6 @@ export const validPropertyNames = [
     'nbVolumetricPlanes', 
     'distortional', 
     'volumetric', 
-    'strain'
+    'strain',
+    'nbSlipped'
 ]

@@ -834,9 +834,9 @@
   integrity sha512-Ne+zfudjSPtt9Kqw8DTkHjMLF/pUiqDhtOIr665y9I7PNA1ro8pMgAcvhBtYxSRWIB982dWU6HSFFJhIAIV1Rg==
 
 "@youwol/geometry@0.x":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@youwol/geometry/-/geometry-0.0.10.tgz#f0d41d7e886aa216bcfb5b73e3e2c92dc233553b"
-  integrity sha512-RpPhXYsM8u4fZTZQQuY/NIPucysNQ2duB1Wj1yHBkP5DKYQuXx0+JSEMXfBAOIOBdwpalwNSlEa5zNI9UMxXUg==
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@youwol/geometry/-/geometry-0.0.11.tgz#320f06c7db25fd7ae4838941d8b3e19199875575"
+  integrity sha512-NjY6MSJ23LX8fEN0S5tuYSMtWZaZ+zRI4CeD1OkPP2EIWk15Zku5FuWdWsWjgaKkxSU5Orxc20bn/kGt7QjncA==
 
 "@youwol/math@0.x":
   version "0.0.18"

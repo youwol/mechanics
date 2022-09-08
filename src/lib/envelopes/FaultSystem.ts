@@ -1,9 +1,7 @@
-import { Serie } from "@youwol/dataframe"
 import { GeneratorType, RemoteFunction, SurfaceType } from "./types"
-import { generatorFromSurfaces, TriangleUtils } from "././utils"
-import { GenAlgorithm, Stress, Vector } from "../types"
+import { generatorFromSurfaces } from "./utils"
+import { clone, dot, scale, sub, GenAlgorithm, Stress, Vector } from "../types"
 import { vec } from "@youwol/math"
-
 
 /**
  * @category Envelope
@@ -17,6 +15,7 @@ export class FaultSystem implements GenAlgorithm {
     private poisson_  = 0.25
     private pressure_ = 0
     private maxArea_  = 0
+    private nbSlipped_ = 0
     private remote_: RemoteFunction = undefined
 
     private dis_      = 0
@@ -61,6 +60,13 @@ export class FaultSystem implements GenAlgorithm {
       */
     get strain() {return this.distortional + this.volumetric}
 
+    /**
+     * Get the number of triangles that has slipped
+     */
+    get nbSlipped() {
+        return this.nbSlipped_
+    }
+
     run() {
         this.initialize()
 
@@ -69,27 +75,50 @@ export class FaultSystem implements GenAlgorithm {
         const La = this.lambda
         const Po = this.poisson
         const Pr = this.pressure
-        const tu = new TriangleUtils()
 
         let dis = 0
         let vol = 0
+        let nb  = 0
+
         this.gen.positions.forEach( (p, i) => {
             const a = this.gen.areas[i]
             const n = this.gen.normals[i]
-            tu.setNormal(n)
-            const {ts, tn} = tu.normalAndShearStress( this.remote_(p) )
-            const tts = vec.norm(ts)
-            const ttn = vec.norm(tn)
-            const C = (ttn-Pr)*mu*(1.-La) + Co
-            if (tts>C) {
-                const Teff = (1+Po)*(tts-C)**2    // Distortional Eff
-                const Seff = (1-2*Po)*(La*ttn)**2 // Volumetric Eff
+            const {ts, tn} = this.normalAndShearStress(n, this.remote_(p) )
+            const C = (tn-Pr)*mu*(1.-La) + Co
+
+            if (ts > C) {
+                const Teff = (1+Po)*(ts-C)**2    // Distortional Eff
+                const Seff = (1-2*Po)*(La*tn)**2 // Volumetric   Eff
                 dis += Teff*a/this.maxArea_
                 vol += Seff*a/this.maxArea_
+                nb++
             }
         })
-        this.dis_ = dis
-        this.vol_ = vol
+        
+        this.dis_       = dis
+        this.vol_       = vol
+        this.nbSlipped_ = nb
+    }
+
+    private normalAndShearStress(n: Vector, stress: Stress): {ts: number, tn: number} {
+        const Sxx = stress[0]
+        const Sxy = stress[1]
+        const Sxz = stress[2]
+        const Syy = stress[3]
+        const Syz = stress[4]
+        const Szz = stress[5]
+        const x = n[0]
+        const y = n[1]
+        const z = n[2]
+        const t = [Sxx*x + Sxy*y + Sxz*z,
+                   Sxy*x + Syy*y + Syz*z,
+                   Sxz*x + Syz*y + Szz*z] as Vector
+        const tn = scale(n, -dot(t, n) )
+        const ts = sub(t, tn)
+        return {
+            ts: vec.norm(ts),
+            tn: vec.norm(tn)
+        }
     }
 
     private initialize() {

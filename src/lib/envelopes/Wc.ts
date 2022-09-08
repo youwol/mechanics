@@ -94,7 +94,7 @@ export class Wc implements GenAlgorithm {
 
     /**
      * Accessible after each call to run().
-     * Get the number of reactivated fractures
+     * Get the number of reactivated shear fractures
      */
     get nbDistortionalPlanes() {return this.dis_.n}
 
@@ -103,11 +103,14 @@ export class Wc implements GenAlgorithm {
      * Get the distortional energy associated to the reactivated fractures
      */
     get distortional()         {return this.dis_.E}
+
+    get distortionalInfo()         {return this.dis_}
     
     /**
      * Accessible after each call to run().
+     * Get the number of reactivated opening fractures
      */
-    get nbVolumetricPlanes()   {return this.dis_.n}
+    get nbVolumetricPlanes()   {return this.vol_.n}
 
     /**
      * Get the volumetric energy
@@ -129,7 +132,7 @@ export class Wc implements GenAlgorithm {
         this.dis_.reset()
 
         for (let i = 0; i < this.normals.length; ++i) {
-            const N = this.normals[i]
+            const N    = this.normals[i]
             const area = this.areas[i]
             const l = N[0]
             const m = N[1]
@@ -143,10 +146,14 @@ export class Wc implements GenAlgorithm {
             const l2 = l * l
             const m2 = m * m
             const n2 = n * n
-            const Tn = Math.sqrt(S12 * l2 * m2 + S23 * m2 * n2 + S31 * n2 * l2)
+            // const Tn = Math.sqrt(S12 * l2 * m2 + S23 * m2 * n2 + S31 * n2 * l2)
             const Sn = (s1 * l2 + s2 * m2 + s3 * n2) - this.pressure_
+            const Tn = Math.sqrt(s1**2 * l2 + s2**2 * m2 + s3**2 * n2 - Sn**2)
+
             const Co = Sn * this.friction_ * (1.0 - this.lambda_) + this.cohesion_
             const okShear = Tn >= Co ? true : false
+
+            // this.poisson_ = 0 // <----------------------------------------------- DEBUG PURPOSE
 
             const Ed = okShear ? (1.0 + this.poisson_) * (Tn - Co)**2 : 0
             const Ev = (1.0 - 2.0 * this.poisson_)*(this.lambda_ * Sn)**2
@@ -179,10 +186,12 @@ export class Wc implements GenAlgorithm {
 }
 
 class Info {
-    public E:number = 0
-    public n:number = 0
-    public max:number = Number.NEGATIVE_INFINITY
-    public array:Array<number> = []
+    public E    : number = 0
+    public n    : number = 0
+    public mean : number = 0
+    public max  : number = Number.NEGATIVE_INFINITY
+    public array: Array<number> = []
+    
     reset(): void {
         this.E = 0
         this.n = 0
@@ -195,5 +204,6 @@ class Info {
         this.array.push(ev)
         this.n++
         if (ev > this.max) this.max = ev
+        this.mean = this.E / this.n
     }
 }

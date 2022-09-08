@@ -10,8 +10,8 @@ import { GeneratorType, SurfaceType } from './types'
  */
 export function generatorFromSurfaces(surfaces: SurfaceType[]): GeneratorType {
     const r: GeneratorType = {
-        normals: [],
-        areas: [],
+        normals  : [],
+        areas    : [],
         positions: []
     }
 
@@ -21,6 +21,7 @@ export function generatorFromSurfaces(surfaces: SurfaceType[]): GeneratorType {
             r.normals  .push( face.normal )
             r.areas    .push( face.area )
             r.positions.push( face.barycenter )
+            // console.log(face.normal)
         })
     })
 
@@ -31,7 +32,7 @@ export function generatorFromSurfaces(surfaces: SurfaceType[]): GeneratorType {
 /**
  * Uniformly generate normals and areas on a sphere.
  * @param subdivision The number of subdivision for the sphere
- * @see [sphere](https://youwol.github.io/geometry/dist/docs/modules.html#sphere) in @youwol/geometry
+ * @see [sphere](https://youwol.github.io/geometry/dist/docs/modules.html#sphere) in `@youwol/geometry`
  * 
  * @hidden
  * @category Envelope
@@ -61,6 +62,36 @@ export function generator(subdivision: number): GeneratorType {
     return {
         normals,
         areas
+    }
+}
+
+/**
+ * Uniformly generate normals and areas on a sphere.
+ * @param subdivision The number of subdivision for the sphere
+ * @see [this paper](https://scholar.rose-hulman.edu/cgi/viewcontent.cgi?article=1387&context=rhumj)
+ * 
+ * @hidden
+ * @category Envelope
+ */
+ export function generatorKogan(subdivision: number): GeneratorType {
+    const sphericalCoordinates = (x: number, y: number) => [ Math.cos(x)*Math.cos(y), Math.sin(x)*Math.cos(y), Math.sin(y)]
+
+    const NX = (n: number, x: number) => {
+        const pts = []
+        const start = -1 + 1/(n-1)
+        const increment = (2 - 2/(n-1))/(n-1)
+        for (let j=0; j<n; ++j) { // <---------------- CHECK include n or not (should be ok)
+            const s = start + j*increment
+            pts.push( sphericalCoordinates(s*x, Math.PI/2 * Math.sign(s)*(1-Math.sqrt(1-Math.abs(s)))) )
+        }
+        return pts
+    }
+
+    const normals = NX( subdivision , 0.1 + 1.2*subdivision)
+
+    return {
+        normals,
+        areas: new Array(normals.length).fill(4*Math.PI/normals.length)
     }
 }
 
@@ -104,6 +135,7 @@ export class TriangleUtils {
                    stress[2]*n[0] + stress[4]*n[1] + stress[5]*n[2]] as Vector
         const tn = this.normalComponent(t)
         const ts = sub(clone(t), tn)
+        // console.log(ts)
         return {
             ts,
             tn
@@ -131,5 +163,4 @@ export class TriangleUtils {
 
         return true
     }
-
 }
