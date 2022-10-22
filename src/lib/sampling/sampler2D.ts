@@ -1,6 +1,7 @@
 import { Axis } from './axis'
 
 /**
+ * Regular sampling in 2D.
  * By default the 2 axis are unknown
  * @example
  * ```js

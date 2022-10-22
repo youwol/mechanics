@@ -1,6 +1,7 @@
 import { Axis } from './axis'
 
 /**
+ * Regular sampling in 3D.
  * By default the 3 axis are unknown
  * @example
  * ```js

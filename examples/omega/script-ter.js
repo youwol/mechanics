@@ -17,7 +17,7 @@ class Wc {
 
     compute(friction) {
         this.friction = friction
-        const bars = []
+        let bars = []
 
         for (let i=0; i<this.bins; ++i) {
             const {E, n, array} = this.run(friction, i/(this.bins-1) )
@@ -29,28 +29,36 @@ class Wc {
         console.log('mean', mean)
         console.log('threshMean', threshMean)
 
-        // Vertical threshold
-        const c = bars.map( bar => {
-            let low=0, high=0
-            bar.array.forEach( v => {
-                if (v>0 && v>=threshMean) high++
-                if (v>0 && v< threshMean) low++
+        const strategy = 0
+
+        if (strategy === 0) {
+            // Vertical threshold
+            bars = bars.map( bar => {
+                let low=0, high=0
+                bar.array.forEach( v => {
+                    if (v>0 && v>=threshMean) high++
+                    if (v>0 && v< threshMean) low++
+                })
+                return {
+                    array: bar.array,
+                    low  : low  / this.l.length,
+                    high : high / this.l.length
+                }
             })
-            return {
-                low : low/this.l.length,
-                high: high/this.l.length
-            }
-        })
+        }
+        else if (strategy === 1) {
+            // Use probability according to distriob of energy
+            let n = 0
+            bars.forEach( bar => {
+                bar.array.forEach( v => {
+                    if (v>0 && v>=threshMean) high++
+                    if (v>0 && v< threshMean) low++
+                })
+            })
+            console.error('TODO')
+        }
 
-        return c
-
-        // Horizontal threshold
-        // lows = lows.map( n => Math.round(n-minN*this.hThreshold) )
-
-        // return {
-        //     low : lows,
-        //     high: highs
-        // }
+        return bars
     }
 
 
@@ -107,9 +115,9 @@ class Wc {
 
 const wc = new Wc(normals)
 wc.S1 = 10
-wc.S3 = 1
+wc.S3 = 0
 wc.cohesion = 0
-wc.hThreshold = 0
+wc.hThreshold = 1
 wc.vThreshold = 0.8
 wc.bins = 10
 const r = wc.compute(0.27)

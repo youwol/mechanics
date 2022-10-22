@@ -1,4 +1,10 @@
 /**
+ * Usually used with a Sampler.
+ * 
+ * Usage
+ * ```js
+ * const axis = new Axis(object, 'friction', {n: 10, min: 0, max: 2, reverse: false})
+ * ```
  * @category Sampling
  */
 export class Axis {
@@ -16,7 +22,6 @@ export class Axis {
         this.min_ = params.min ;
         this.max_ = params.max ;
         this.reverse_ = params.reverse
-        //console.log(this.min_, this.max_, this.n_)
     }
 
     get property() {return this.prop_}
