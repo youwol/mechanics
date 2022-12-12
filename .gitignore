@@ -1,4 +1,7 @@
 node_modules
-dist
+/dist/*
+!/dist/docs/
+!/dist/docs/*
+!/dist/docs/**/*
 cdn.zip
 junit.xml
