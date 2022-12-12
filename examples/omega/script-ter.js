@@ -19,12 +19,12 @@ class Wc {
         this.friction = friction
         let bars = []
 
-        for (let i=0; i<this.bins; ++i) {
-            const {E, n, array} = this.run(friction, i/(this.bins-1) )
-            bars.push( {E, n, array: [...array]} )
+        for (let i = 0; i < this.bins; ++i) {
+            const { E, n, array } = this.run(friction, i / (this.bins - 1))
+            bars.push({ E, n, array: [...array] })
         }
 
-        const mean = bars.reduce( (cur, v) => cur+v.E, 0 ) / this.bins
+        const mean = bars.reduce((cur, v) => cur + v.E, 0) / this.bins
         const threshMean = mean / this.vThreshold
         console.log('mean', mean)
         console.log('threshMean', threshMean)
@@ -33,26 +33,34 @@ class Wc {
 
         if (strategy === 0) {
             // Vertical threshold
-            bars = bars.map( bar => {
-                let low=0, high=0
-                bar.array.forEach( v => {
-                    if (v>0 && v>=threshMean) {high++}
-                    if (v>0 && v< threshMean) {low++}
+            bars = bars.map((bar) => {
+                let low = 0,
+                    high = 0
+                bar.array.forEach((v) => {
+                    if (v > 0 && v >= threshMean) {
+                        high++
+                    }
+                    if (v > 0 && v < threshMean) {
+                        low++
+                    }
                 })
                 return {
                     array: bar.array,
-                    low  : low  / this.l.length,
-                    high : high / this.l.length
+                    low: low / this.l.length,
+                    high: high / this.l.length,
                 }
             })
-        }
-        else if (strategy === 1) {
+        } else if (strategy === 1) {
             // Use probability according to distriob of energy
             let n = 0
-            bars.forEach( bar => {
-                bar.array.forEach( v => {
-                    if (v>0 && v>=threshMean) {high++}
-                    if (v>0 && v< threshMean) {low++}
+            bars.forEach((bar) => {
+                bar.array.forEach((v) => {
+                    if (v > 0 && v >= threshMean) {
+                        high++
+                    }
+                    if (v > 0 && v < threshMean) {
+                        low++
+                    }
                 })
             })
             console.error('TODO')
@@ -61,55 +69,57 @@ class Wc {
         return bars
     }
 
-
     run(friction, R) {
         this.friction = friction
-        this.S2 = (this.S1 - this.S3)*R + this.S3
+        this.S2 = (this.S1 - this.S3) * R + this.S3
         const array = []
         for (let i = 0; i < this.l.length; ++i) {
-            const l   = this.l[i]
-            const m   = this.m[i]
-            const n   = this.n[i]
-            const S1  = this.S1
-            const S2  = this.S2
-            const S3  = this.S3
+            const l = this.l[i]
+            const m = this.m[i]
+            const n = this.n[i]
+            const S1 = this.S1
+            const S2 = this.S2
+            const S3 = this.S3
             const S12 = (S1 - S2) * (S1 - S2)
             const S23 = (S2 - S3) * (S2 - S3)
             const S31 = (S3 - S1) * (S3 - S1)
-            const l2  = l * l
-            const m2  = m * m
-            const n2  = n * n
-            const Tn  = Math.sqrt(S12 * l2 * m2 + S23 * m2 * n2 + S31 * n2 * l2)
-            const Sn  = (S1 * l2 + S2 * m2 + S3 * n2)
-            const Co  = this.friction * Sn + this.cohesion
+            const l2 = l * l
+            const m2 = m * m
+            const n2 = n * n
+            const Tn = Math.sqrt(S12 * l2 * m2 + S23 * m2 * n2 + S31 * n2 * l2)
+            const Sn = S1 * l2 + S2 * m2 + S3 * n2
+            const Co = this.friction * Sn + this.cohesion
 
             if (Tn >= Co) {
-                array.push( (Tn - Co)**2 )
-            }
-            else {
-                array.push( 0 )
+                array.push((Tn - Co) ** 2)
+            } else {
+                array.push(0)
             }
         }
 
         const nb = array.length
 
-        let E   = 0
-        let n   = 0
+        let E = 0
+        let n = 0
         let min = Number.POSITIVE_INFINITY
         let max = 0
-        
-        array.forEach( (e,i) => {
+
+        array.forEach((e, i) => {
             if (e > 0) {
                 n++
                 E += e
             }
-            if (e>max) {max = e}
-            if (e<min) {min = e}
+            if (e > max) {
+                max = e
+            }
+            if (e < min) {
+                min = e
+            }
         })
 
         E /= n
 
-        return {E, n, array}
+        return { E, n, array }
     }
 }
 
@@ -123,7 +133,7 @@ wc.bins = 10
 const r = wc.compute(0.27)
 
 console.log('')
-r.forEach( v => console.log(v.low.toString().replace('.',',')) )
+r.forEach((v) => console.log(v.low.toString().replace('.', ',')))
 
 console.log('')
-r.forEach( v => console.log(v.high.toString().replace('.',',')) )
+r.forEach((v) => console.log(v.high.toString().replace('.', ',')))
