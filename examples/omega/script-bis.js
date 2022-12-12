@@ -1,19 +1,19 @@
-const Wc        = require("../../dist/@youwol/mechanics").Wc
-const generator = require("../../dist/@youwol/mechanics").generator
-const generatorKogan = require("../../dist/@youwol/mechanics").generatorKogan
+const Wc = require('../../dist/@youwol/mechanics').Wc
+const generator = require('../../dist/@youwol/mechanics').generator
+const generatorKogan = require('../../dist/@youwol/mechanics').generatorKogan
 // const fs   = require('fs')
 
 const normals = require('./sphere-normals') // {l: array, m: array, n: array}
 
 function generatorFromNormals(normals) {
     const r = {
-        normals  : [],
-        areas    : []
+        normals: [],
+        areas: [],
     }
 
-    for (let i=0; i<normals.l.length; ++i) {
-        r.normals.push( [normals.l[i], normals.m[i], normals.n[i]] )
-        r.areas  .push( 1 )
+    for (let i = 0; i < normals.l.length; ++i) {
+        r.normals.push([normals.l[i], normals.m[i], normals.n[i]])
+        r.areas.push(1)
         // console.log(face.normal)
     }
 
@@ -22,18 +22,21 @@ function generatorFromNormals(normals) {
 
 function run(wc, friction, R) {
     wc.friction = friction
-    wc.S2 = (wc.S1 - wc.S3)*R + wc.S3
+    wc.S2 = (wc.S1 - wc.S3) * R + wc.S3
     wc.run()
     let high = 0
     let low = 0
-    const mean = wc.distortionalInfo.mean*vThreashold
-    wc.distortionalInfo.array.forEach( v => {
-        if (v>0) {
-            if (v<mean) low++
-            else high++
+    const mean = wc.distortionalInfo.mean * vThreashold
+    wc.distortionalInfo.array.forEach((v) => {
+        if (v > 0) {
+            if (v < mean) {
+                low++
+            } else {
+                high++
+            }
         }
     })
-    return {low, high}
+    return { low, high }
 }
 
 function binning(arr, fct, interval = 0.1) {
@@ -42,23 +45,21 @@ function binning(arr, fct, interval = 0.1) {
     let binCount = 0
 
     // Setup Bins
-    for(let i = 0; i < numOfBuckets-interval; i += interval) {
+    for (let i = 0; i < numOfBuckets - interval; i += interval) {
         bins.push({
             binNum: binCount,
             minNum: i,
             maxNum: i + interval,
-            count : 0
+            count: 0,
         })
         binCount++
     }
 
     // Loop through data and add to bin's count
-    arr.forEach( item => bins.forEach( bin => bin.count += fct(item, bin) ) )
+    arr.forEach((item) => bins.forEach((bin) => (bin.count += fct(item, bin))))
 
     return bins
 }
-
-
 
 /**
  * 1. For each fracture, compute its Weff for a given R and mu
@@ -68,73 +69,64 @@ function binning(arr, fct, interval = 0.1) {
  * 5. Count the number of corresponding fractures
  * 6. Do that for each R
  * 7. Plot the histogram
- * 
+ *
  * What is missing
  * 1. Horizontal threshold (DONE)
  * 2. Use the normals from a sphere (DONE)
  */
 
 // ---------------------------------------------------
-const friction      = 0.27
-const cohesion      = 0
-const lambda        = 0
-const S1            = 10
-const S3            = 1
-const vThreashold   = 0.8 // 80%
-const hThreshold    = 0
-const N             = 10
+const friction = 0.27
+const cohesion = 0
+const lambda = 0
+const S1 = 10
+const S3 = 1
+const vThreashold = 0.8 // 80%
+const hThreshold = 0
+const N = 10
 // ---------------------------------------------------
 
 const wc = new Wc()
 wc.S1 = S1
 wc.S3 = S3
-wc.poisson  = 0
+wc.poisson = 0
 wc.cohesion = cohesion
-wc.lambda   = lambda
+wc.lambda = lambda
 
 // const subdivision = 250
 // wc.setNormalsAndAreas( generatorKogan(subdivision*555) )
 // wc.setNormalsAndAreas( generator(subdivision) )
-wc.setNormalsAndAreas( generatorFromNormals(normals) )
+wc.setNormalsAndAreas(generatorFromNormals(normals))
 
 let lows = []
 let highs = []
 let minN = Number.MAX_SAFE_INTEGER
-for (let i=0; i<N; ++i) {
-    const R = i/(N-1)
-    const {low, high} = run(wc, friction, R)
+for (let i = 0; i < N; ++i) {
+    const R = i / (N - 1)
+    const { low, high } = run(wc, friction, R)
     lows.push(low)
     highs.push(high)
-    if (low<minN) minN=low
+    if (low < minN) {
+        minN = low
+    }
 }
 
 // Horizontal threshold
-lows = lows.map( n => n-minN*hThreshold)
+lows = lows.map((n) => n - minN * hThreshold)
 
-lows.forEach( n => console.log(Math.round(n)) )
+lows.forEach((n) => console.log(Math.round(n)))
 console.log('')
-highs.forEach( n => console.log(Math.round(n)) )
-
-
-
-
-
-
-
-
-
-
+highs.forEach((n) => console.log(Math.round(n)))
 
 // const testFct = (item, bin) => (item.R > bin.minNum && item.R <= bin.maxNum) ? item.n : 0
 // const res = binning(values, testFct, 1/12)
 // res.forEach( r => console.log(r.count) )
 
-
 // Save as CSV file
 //
 // let buffer = ''
 // for (let i=0; i<frics.length; ++i) {
-//     i===array.length-1 ? buffer += 'mu='+frics[i].toFixed(2) + '\n' : buffer += 'mu='+frics[i].toFixed(2) + ',' 
+//     i===array.length-1 ? buffer += 'mu='+frics[i].toFixed(2) + '\n' : buffer += 'mu='+frics[i].toFixed(2) + ','
 // }
 
 // const nb = array[0].length

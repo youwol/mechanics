@@ -1,13 +1,13 @@
-import { Serie } from "@youwol/dataframe"
-import { Stress, Vector } from "../types"
+import { Serie } from '@youwol/dataframe'
+import { Stress, Vector } from '../types'
 
 /**
  * @category Envelope
  */
 export type GeneratorType = {
     // TODO: use series
-    normals   : Vector[],
-    areas     : number[],
+    normals: Vector[]
+    areas: number[]
     positions?: Vector[]
 }
 
@@ -15,8 +15,8 @@ export type GeneratorType = {
  * @category Envelope
  */
 export type SurfaceType = {
-    positions: Serie,
-    indices  : Serie
+    positions: Serie
+    indices: Serie
 }
 
 export type RemoteFunction = (p: Vector) => Stress
@@ -26,10 +26,10 @@ export type RemoteFunction = (p: Vector) => Stress
  * @category Envelope
  */
 export const validPropertyNames = [
-    'nbDistortionalPlanes', 
-    'nbVolumetricPlanes', 
-    'distortional', 
-    'volumetric', 
+    'nbDistortionalPlanes',
+    'nbVolumetricPlanes',
+    'distortional',
+    'volumetric',
     'strain',
-    'nbSlipped'
+    'nbSlipped',
 ]
