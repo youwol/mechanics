@@ -1,7 +1,6 @@
-import { Wc, WcEnvelope3D } from "../lib"
-import { generator } from "../lib/envelopes/utils"
+import { WcEnvelope3D } from "../lib"
 
-test('Test fault-system-envelope', () => {
+test('fault-system-envelope', () => {
     const f = new WcEnvelope3D(50)
     f.wc.S1 = 10
     f.wc.S3 = 5

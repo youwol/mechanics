@@ -54,9 +54,9 @@ export class Sampler3D {
     set verbose(b: boolean) {this._verbose = b}
 
     checkAxis() {
-        if (!this.cx_) throw new Error('X axis is not defined.')
-        if (!this.cy_) throw new Error('Y axis is not defined.')
-        if (!this.cz_) throw new Error('Z axis is not defined.')
+        if (!this.cx_) {throw new Error('X axis is not defined.')}
+        if (!this.cy_) {throw new Error('Y axis is not defined.')}
+        if (!this.cz_) {throw new Error('Z axis is not defined.')}
     }
 
     get sampling() {
@@ -86,14 +86,14 @@ export class Sampler3D {
             throw new Error(`Unknown member property named ${property}`)
         }
 
-        if (min === undefined) min = 0
-        if (max === undefined) max = 1
-        if (reverse === undefined) reverse = false
+        if (min === undefined) {min = 0}
+        if (max === undefined) {max = 1}
+        if (reverse === undefined) {reverse = false}
 
         const axis = new Axis((parent?parent:this), property, {n,min,max,reverse})
-        if (axeName === 'x') this.cx_ = axis
-        if (axeName === 'y') this.cy_ = axis
-        if (axeName === 'z') this.cz_ = axis
+        if (axeName === 'x') {this.cx_ = axis}
+        if (axeName === 'y') {this.cy_ = axis}
+        if (axeName === 'z') {this.cz_ = axis}
 
         return true ;
     }
@@ -134,7 +134,7 @@ export class Sampler3D {
      * @param cb a function callback
      */
     forEach( cb: Function ) {
-        if (cb === undefined) throw new Error('Missing callback function')
+        if (cb === undefined) {throw new Error('Missing callback function')}
         const n = this.nbr_
         const cx = this.cx_
         const cy = this.cy_
@@ -147,9 +147,9 @@ export class Sampler3D {
                     const z = cz.update(k)
                     cb([x, y, z])
                 }
-                if (this.endZAxisCallback) this.endZAxisCallback()
+                if (this.endZAxisCallback) {this.endZAxisCallback()}
             }
-            if (this.endYAxisCallback) this.endYAxisCallback()
+            if (this.endYAxisCallback) {this.endYAxisCallback()}
         }
     }
 

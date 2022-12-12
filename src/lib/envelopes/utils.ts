@@ -1,6 +1,6 @@
 // import { Vector } from '@youwol/dataframe'
-import { facetArea, facetNormal, generateSphere, Surface } from '@youwol/geometry'
-import { vec, mat } from '@youwol/math'
+import { generateSphere, Surface } from '@youwol/geometry'
+import { vec } from '@youwol/math'
 import { clone, dot, scale, Stress, sub, Vector } from '../types'
 import { GeneratorType, SurfaceType } from './types'
 
@@ -46,8 +46,8 @@ export function generator(subdivision: number): GeneratorType {
     const normals: Array<[number,number,number]> = []
     const areas: Array<number> = []
     
-    let idx = 0
-    for (let i=0; i<(P as Float32Array).length/9; i+=9) {
+    const idx = 0
+    for (let i=0; i<(P ).length/9; i+=9) {
         const p1 = [P[i  ], P[i+1], P[i+2]]
         const p2 = [P[i+3], P[i+4], P[i+5]]
         const p3 = [P[i+6], P[i+7], P[i+8]]
@@ -119,7 +119,7 @@ export class TriangleUtils {
      * @param t The traction vector
      */
     normalComponent(t: Vector): Vector {
-        let n = this.normal_
+        const n = this.normal_
         return scale(n, -dot(t, n) )  //n.scale(-t.dot(n))
     }
 
@@ -129,7 +129,7 @@ export class TriangleUtils {
      * @returns The shear stress (ts) and the normal stress (tn)
      */
     normalAndShearStress(stress: Stress): {ts: Vector, tn: Vector} {
-        let n = this.normal_
+        const n = this.normal_
         const t = [stress[0]*n[0] + stress[1]*n[1] + stress[2]*n[2],
                    stress[1]*n[0] + stress[3]*n[1] + stress[4]*n[2],
                    stress[2]*n[0] + stress[4]*n[1] + stress[5]*n[2]] as Vector
@@ -146,7 +146,7 @@ export class TriangleUtils {
         this.normal_ = n
 
         const TINY_ANGLE_ = 1e-7
-        let x3 = [n[0], n[1], n[2]] as vec.Vector3
+        const x3 = [n[0], n[1], n[2]] as vec.Vector3
         if (vec.norm(x3) < TINY_ANGLE_) {
             throw new Error('Cannot calculate element normal. Elt must have a very odd shape.')
         }
@@ -158,7 +158,7 @@ export class TriangleUtils {
         }
         vec.normalize(x2)
 
-        let x1 = vec.cross(x2, x3)
+        const x1 = vec.cross(x2, x3)
         vec.normalize(x1)
 
         return true

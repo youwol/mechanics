@@ -40,7 +40,7 @@ export class Sampler1D {
     set verbose(b: boolean) {this._verbose = b}
 
     checkAxis() {
-        if (!this.cx_) throw new Error('X axis is not defined.')
+        if (!this.cx_) {throw new Error('X axis is not defined.')}
     }
 
     // set sampling(n) {
@@ -72,11 +72,11 @@ export class Sampler1D {
             throw new Error(`Unknown member property named ${property}`)
         }
 
-        if (min === undefined) min = 0
-        if (max === undefined) max = 1
-        if (reverse === undefined) reverse = false
-        if (n === undefined) n = this.nbr_
-        else this.nbr_ = n
+        if (min === undefined) {min = 0}
+        if (max === undefined) {max = 1}
+        if (reverse === undefined) {reverse = false}
+        if (n === undefined) {n = this.nbr_}
+        else {this.nbr_ = n}
 
         const axis = new Axis((parent?parent:this), property, {n,min,max,reverse})
         this.cx_ = axis
@@ -94,7 +94,7 @@ export class Sampler1D {
      * @param cb a function callback
      */
     forEach( cb: Function ) {
-        if (cb === undefined) throw new Error('Missing callback function')
+        if (cb === undefined) {throw new Error('Missing callback function')}
         const n = this.nbr_
         const cx = this.cx_
         for (let i = 0; i < n; ++i) {

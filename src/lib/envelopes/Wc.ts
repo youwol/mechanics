@@ -186,9 +186,9 @@ export class Wc implements GenAlgorithm {
 }
 
 class Info {
-    public E    : number = 0
-    public n    : number = 0
-    public mean : number = 0
+    public E     = 0
+    public n     = 0
+    public mean  = 0
     public max  : number = Number.NEGATIVE_INFINITY
     public array: Array<number> = []
     
@@ -199,11 +199,11 @@ class Info {
         this.array = []
     }
     add(e: number, area: number) {
-        let ev = area * e
+        const ev = area * e
         this.E += ev
         this.array.push(ev)
         this.n++
-        if (ev > this.max) this.max = ev
+        if (ev > this.max) {this.max = ev}
         this.mean = this.E / this.n
     }
 }

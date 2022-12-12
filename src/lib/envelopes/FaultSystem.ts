@@ -1,6 +1,6 @@
 import { GeneratorType, RemoteFunction, SurfaceType } from "./types"
 import { generatorFromSurfaces } from "./utils"
-import { clone, dot, scale, sub, GenAlgorithm, Stress, Vector } from "../types"
+import { dot, scale, sub, GenAlgorithm, Stress, Vector } from "../types"
 import { vec } from "@youwol/math"
 
 /**
@@ -129,7 +129,7 @@ export class FaultSystem implements GenAlgorithm {
             this.gen = generatorFromSurfaces(this.surfaces_)
             this.maxArea_ = 0
             this.gen.areas.forEach( a => {
-                if (a>this.maxArea_) this.maxArea_ = a
+                if (a>this.maxArea_) {this.maxArea_ = a}
             })
         }
     }

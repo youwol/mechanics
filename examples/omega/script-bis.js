@@ -29,8 +29,8 @@ function run(wc, friction, R) {
     const mean = wc.distortionalInfo.mean*vThreashold
     wc.distortionalInfo.array.forEach( v => {
         if (v>0) {
-            if (v<mean) low++
-            else high++
+            if (v<mean) {low++}
+            else {high++}
         }
     })
     return {low, high}
@@ -105,7 +105,7 @@ for (let i=0; i<N; ++i) {
     const {low, high} = run(wc, friction, R)
     lows.push(low)
     highs.push(high)
-    if (low<minN) minN=low
+    if (low<minN) {minN=low}
 }
 
 // Horizontal threshold

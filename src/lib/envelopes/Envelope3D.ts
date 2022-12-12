@@ -8,7 +8,7 @@ import { GenAlgorithm } from '../types'
  * @category Envelope
  */
 export class Envelope3D extends Sampler3D {
-    private _property: string = 'strain'
+    private _property = 'strain'
     private algo_: GenAlgorithm = undefined
 
     protected getAlgo(): GenAlgorithm {
@@ -38,8 +38,8 @@ export class Envelope3D extends Sampler3D {
         this._property = name
     }
 
-    getPositions(normalize: boolean = true) {
-        let total = this.sampling * 3
+    getPositions(normalize = true) {
+        const total = this.sampling * 3
         const values = createTyped(Float32Array, total, true)
         let l = 0
 
@@ -62,7 +62,7 @@ export class Envelope3D extends Sampler3D {
     run(): Serie {
         this.checkAxis()
 
-        let total = this.sampling
+        const total = this.sampling
         const values = createTyped(Float32Array, total, true)
 
         let l = 0

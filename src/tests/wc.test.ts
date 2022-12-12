@@ -1,7 +1,7 @@
 import { generator, Wc } from "../lib"
 import { maxArray } from '@youwol/math'
 
-test('Test fault-system-envelope', () => {
+test('fault-system-envelope', () => {
     const f = new Wc()
     //f.subdivision = 50
     f.setNormalsAndAreas( generator(50) )
@@ -11,7 +11,7 @@ test('Test fault-system-envelope', () => {
 
     const n = []
     for (let i=0; i<10; ++i) {
-        let R = i/9
+        const R = i/9
         f.S2 = (f.S1-f.S3)*R + f.S3
         console.log(f.S3, f.S2, f.S1)
         f.run()

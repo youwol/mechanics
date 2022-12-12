@@ -47,8 +47,8 @@ export class Sampler2D {
     set verbose(b: boolean) {this._verbose = b}
 
     checkAxis() {
-        if (!this.cx_) throw new Error('X axis is not defined.')
-        if (!this.cy_) throw new Error('Y axis is not defined.')
+        if (!this.cx_) {throw new Error('X axis is not defined.')}
+        if (!this.cy_) {throw new Error('Y axis is not defined.')}
     }
 
     // set sampling(n) {
@@ -83,15 +83,15 @@ export class Sampler2D {
             throw new Error(`Unknown member property named ${property}`)
         }
 
-        if (min === undefined) min = 0
-        if (max === undefined) max = 1
-        if (reverse === undefined) reverse = false
-        if (n === undefined) n = this.nbr_
-        else this.nbr_ = n
+        if (min === undefined) {min = 0}
+        if (max === undefined) {max = 1}
+        if (reverse === undefined) {reverse = false}
+        if (n === undefined) {n = this.nbr_}
+        else {this.nbr_ = n}
 
         const axis = new Axis((parent?parent:this), property, {n,min,max,reverse})
-        if (axeName === 'x') this.cx_ = axis
-        if (axeName === 'y') this.cy_ = axis
+        if (axeName === 'x') {this.cx_ = axis}
+        if (axeName === 'y') {this.cy_ = axis}
 
         return true ;
     }
@@ -120,7 +120,7 @@ export class Sampler2D {
      * @param cb a function callback
      */
     forEach( cb: Function ) {
-        if (cb === undefined) throw new Error('Missing callback function')
+        if (cb === undefined) {throw new Error('Missing callback function')}
         const n = this.nbr_
         const cx = this.cx_
         const cy = this.cy_
@@ -130,7 +130,7 @@ export class Sampler2D {
                 const y = cy.update(j)
                 cb([x, y])
             }
-            if (this.endYAxisCallback) this.endYAxisCallback()
+            if (this.endYAxisCallback) {this.endYAxisCallback()}
         }
     }
 

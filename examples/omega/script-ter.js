@@ -36,8 +36,8 @@ class Wc {
             bars = bars.map( bar => {
                 let low=0, high=0
                 bar.array.forEach( v => {
-                    if (v>0 && v>=threshMean) high++
-                    if (v>0 && v< threshMean) low++
+                    if (v>0 && v>=threshMean) {high++}
+                    if (v>0 && v< threshMean) {low++}
                 })
                 return {
                     array: bar.array,
@@ -51,8 +51,8 @@ class Wc {
             let n = 0
             bars.forEach( bar => {
                 bar.array.forEach( v => {
-                    if (v>0 && v>=threshMean) high++
-                    if (v>0 && v< threshMean) low++
+                    if (v>0 && v>=threshMean) {high++}
+                    if (v>0 && v< threshMean) {low++}
                 })
             })
             console.error('TODO')
@@ -103,8 +103,8 @@ class Wc {
                 n++
                 E += e
             }
-            if (e>max) max = e
-            if (e<min) min = e
+            if (e>max) {max = e}
+            if (e<min) {min = e}
         })
 
         E /= n
