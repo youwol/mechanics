@@ -17,7 +17,8 @@ export class FaultSystemEnvelope3D extends Envelope3D {
     }
 
     set remote(r: RemoteFunction) {
-        ;(this.getAlgo() as FaultSystem).remote = r
+        const algo = this.getAlgo() as FaultSystem
+        algo.remote = r
     }
 
     private get system() {

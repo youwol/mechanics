@@ -37,7 +37,7 @@ export function generatorFromSurfaces(surfaces: SurfaceType[]): GeneratorType {
  * @category Envelope
  */
 export function generator(subdivision: number): GeneratorType {
-    const { positions, indices } = generateSphere(subdivision)
+    const { positions } = generateSphere(subdivision)
     const P = positions as Float32Array
 
     // Compute the normals ...
@@ -45,7 +45,6 @@ export function generator(subdivision: number): GeneratorType {
     const normals: Array<[number, number, number]> = []
     const areas: Array<number> = []
 
-    const idx = 0
     for (let i = 0; i < P.length / 9; i += 9) {
         const p1 = [P[i], P[i + 1], P[i + 2]]
         const p2 = [P[i + 3], P[i + 4], P[i + 5]]

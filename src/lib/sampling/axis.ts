@@ -8,15 +8,15 @@
  * @category Sampling
  */
 export class Axis {
-    private p_: any
-    private prop_: any
+    private p_: object
+    private prop_: string
     private n_: number
     private min_: number
     private max_: number
     private reverse_: boolean
 
     constructor(
-        parent: any,
+        parent: object,
         prop: string,
         params = { n: 10, min: 0, max: 1, reverse: false },
     ) {

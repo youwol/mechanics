@@ -1,6 +1,6 @@
 const Wc = require('../../dist/@youwol/mechanics').Wc
-const generator = require('../../dist/@youwol/mechanics').generator
-const generatorKogan = require('../../dist/@youwol/mechanics').generatorKogan
+// const generator = require('../../dist/@youwol/mechanics').generator
+// const generatorKogan = require('../../dist/@youwol/mechanics').generatorKogan
 // const fs   = require('fs')
 
 const normals = require('./sphere-normals') // {l: array, m: array, n: array}
@@ -39,6 +39,7 @@ function run(wc, friction, R) {
     return { low, high }
 }
 
+/*
 function binning(arr, fct, interval = 0.1) {
     const bins = []
     const numOfBuckets = 1
@@ -60,6 +61,7 @@ function binning(arr, fct, interval = 0.1) {
 
     return bins
 }
+*/
 
 /**
  * 1. For each fracture, compute its Weff for a given R and mu

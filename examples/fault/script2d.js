@@ -1,6 +1,5 @@
 const meca = require('../../dist/@youwol/mechanics')
 const io = require('../../../io/dist/@youwol/io')
-const math = require('../../../math/dist/@youwol/math')
 const geom = require('../../../geometry/dist/@youwol/geometry')
 const fs = require('fs')
 
@@ -33,4 +32,4 @@ const dataframe2 = geom.triangulate(env.getPositions(true))
 dataframe2.series['E'] = s
 
 const bufferOut = io.encodeGocadTS(dataframe2)
-fs.writeFile('/Users/fmaerten/data/meca/2d.ts', bufferOut, 'utf8', (err) => {})
+fs.writeFile('/Users/fmaerten/data/meca/2d.ts', bufferOut, 'utf8', () => {})

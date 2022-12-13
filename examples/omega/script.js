@@ -1,9 +1,6 @@
 const Wc = require('../../dist/@youwol/mechanics').Wc
-const math = require('../../../math/dist/@youwol/math')
-const df = require('../../../dataframe/dist/@youwol/dataframe')
 const generator = require('../../dist/@youwol/mechanics').generator
 const generatorKogan = require('../../dist/@youwol/mechanics').generatorKogan
-const fs = require('fs')
 
 /**
  * Use the Omega distribution
@@ -36,13 +33,13 @@ what = 'nbDistortionalPlanes'
 
 f.S2 = f.S3
 f.run()
-max = f.nbDistortionalPlanes
+// const max = f.nbDistortionalPlanes
 
-const a = 0
-const b = 1
-const beta = 2
-const cdf = math.inverseCDF((x) => a + b * (x ** 2 - x + 1) ** -beta, 100)
-const omega = () => cdf(Math.random())
+// const a = 0
+// const b = 1
+// const beta = 2
+// const cdf = math.inverseCDF((x) => a + b * (x ** 2 - x + 1) ** -beta, 100)
+// const omega = () => cdf(Math.random())
 
 function run(friction) {
     f.friction = friction

@@ -25,8 +25,6 @@ import { GenAlgorithm } from '../types'
  * @category Envelope
  */
 export class Wc implements GenAlgorithm {
-    constructor() {}
-
     setNormalsAndAreas(na: GeneratorType) {
         this.normals = na.normals
         this.areas = na.areas
@@ -187,9 +185,9 @@ export class Wc implements GenAlgorithm {
             const s1 = this.S1_
             const s2 = this.S2_
             const s3 = this.S3_
-            const S12 = (s1 - s2) * (s1 - s2)
-            const S23 = (s2 - s3) * (s2 - s3)
-            const S31 = (s3 - s1) * (s3 - s1)
+            // const S12 = (s1 - s2) * (s1 - s2)
+            // const S23 = (s2 - s3) * (s2 - s3)
+            // const S31 = (s3 - s1) * (s3 - s1)
             const l2 = l * l
             const m2 = m * m
             const n2 = n * n
