@@ -41,7 +41,7 @@ export class Sampler2D {
     private cx_: Axis = undefined
     private cy_: Axis = undefined
     private _verbose = false
-    private endYAxisCallback: Function = undefined
+    private endYAxisCallback: () => void = undefined
 
     get verbose() {
         return this._verbose
@@ -88,7 +88,7 @@ export class Sampler2D {
      * configure(sampler, 'x', 'cohesion', {n:10, min:0, max:1, reverse:false})
      */
     configure(
-        parent: any,
+        parent: object,
         axeName: string,
         property: string,
         {
@@ -136,7 +136,7 @@ export class Sampler2D {
     /**
      * Called every time the y-axis is done to iterate
      */
-    set finishedYAxisCallBack(cb: Function) {
+    set finishedYAxisCallBack(cb: () => void) {
         this.endYAxisCallback = cb
     }
 
@@ -156,7 +156,7 @@ export class Sampler2D {
      *})
      * @param cb a function callback
      */
-    forEach(cb: Function) {
+    forEach(cb: (value: number[], index?: number) => void) {
         if (cb === undefined) {
             throw new Error('Missing callback function')
         }

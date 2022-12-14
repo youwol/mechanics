@@ -95,7 +95,7 @@ export abstract class Envelope2D extends Sampler2D {
         const values = createTyped(Float32Array, total, true)
 
         let l = 0
-        this.forEach((v: vec.IVector) => {
+        this.forEach(() => {
             this.getAlgo().run()
             values[l++] = this.getAlgo()[this._property]
         })

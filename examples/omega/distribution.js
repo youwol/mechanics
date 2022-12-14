@@ -1,6 +1,5 @@
 const math = require('../../../math/dist/@youwol/math')
 const df = require('../../../dataframe/dist/@youwol/dataframe')
-const fs = require('fs')
 
 const a = -1
 const b = 1

@@ -15,5 +15,5 @@ fs.writeFileSync(
     '/Users/fmaerten/data/meca/kogan.xyz',
     buffer,
     'utf8',
-    (err) => {},
+    () => {},
 )

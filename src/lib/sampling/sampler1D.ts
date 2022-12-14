@@ -75,7 +75,7 @@ export class Sampler1D {
      * ```
      */
     configure(
-        parent: any,
+        parent: object,
         property: string,
         {
             n = 10,
@@ -123,7 +123,7 @@ export class Sampler1D {
      ```
      * @param cb a function callback
      */
-    forEach(cb: Function) {
+    forEach(cb: (v: number, index?: number) => void) {
         if (cb === undefined) {
             throw new Error('Missing callback function')
         }

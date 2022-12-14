@@ -1,6 +1,6 @@
 import { createTyped, Serie } from '@youwol/dataframe'
 import { Sampler3D } from '../sampling/sampler3D'
-import { MinMax, vec } from '@youwol/math'
+import { MinMax } from '@youwol/math'
 import { validPropertyNames } from './types'
 import { GenAlgorithm } from '../types'
 
@@ -84,7 +84,7 @@ export class Envelope3D extends Sampler3D {
         const values = createTyped(Float32Array, total, true)
 
         let l = 0
-        this.forEach((v: vec.Vector3) => {
+        this.forEach(() => {
             this.getAlgo().run()
             values[l++] = this.getAlgo()[this._property]
         })

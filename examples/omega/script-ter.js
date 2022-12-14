@@ -51,8 +51,8 @@ class Wc {
                 }
             })
         } else if (strategy === 1) {
-            // Use probability according to distriob of energy
-            let n = 0
+            // Use probability according to distrion of energy
+            /*
             bars.forEach((bar) => {
                 bar.array.forEach((v) => {
                     if (v > 0 && v >= threshMean) {
@@ -63,6 +63,7 @@ class Wc {
                     }
                 })
             })
+            */
             console.error('TODO')
         }
 
@@ -97,14 +98,14 @@ class Wc {
             }
         }
 
-        const nb = array.length
+        // const nb = array.length
 
         let E = 0
         let n = 0
         let min = Number.POSITIVE_INFINITY
         let max = 0
 
-        array.forEach((e, i) => {
+        array.forEach((e) => {
             if (e > 0) {
                 n++
                 E += e

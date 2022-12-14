@@ -47,8 +47,8 @@ export class Sampler3D {
     private cy_: Axis = undefined
     private cz_: Axis = undefined
     private _verbose = false
-    private endYAxisCallback: Function = undefined
-    private endZAxisCallback: Function = undefined
+    private endYAxisCallback: () => void = undefined
+    private endZAxisCallback: () => void = undefined
 
     get verbose() {
         return this._verbose
@@ -95,7 +95,7 @@ export class Sampler3D {
      * configure(sampler, 'x', 'cohesion', {n:10, min:0, max:1, reverse:false})
      */
     configure(
-        parent: any,
+        parent: object,
         axeName: string,
         property: string,
         {
@@ -141,14 +141,14 @@ export class Sampler3D {
     /**
      * Called every time the y-axis is done to iterate
      */
-    set finishedYAxisCallBack(cb: Function) {
+    set finishedYAxisCallBack(cb: () => void) {
         this.endYAxisCallback = cb
     }
 
     /**
      * Called every time the y-axis is done to iterate
      */
-    set finishedZAxisCallBack(cb: Function) {
+    set finishedZAxisCallBack(cb: () => void) {
         this.endZAxisCallback = cb
     }
 
@@ -173,11 +173,11 @@ export class Sampler3D {
      * ```
      * @param cb a function callback
      */
-    forEach(cb: Function) {
+    forEach(cb: (value: number[], index?: number) => void) {
         if (cb === undefined) {
             throw new Error('Missing callback function')
         }
-        const n = this.nbr_
+        // const n = this.nbr_
         const cx = this.cx_
         const cy = this.cy_
         const cz = this.cz_

@@ -61,4 +61,4 @@ const dataframe2 = df.DataFrame.create({
 })
 
 const bufferOut = io.encodeGocadTS(dataframe2)
-fs.writeFile('/Users/fmaerten/data/meca/3d.ts', bufferOut, 'utf8', (err) => {})
+fs.writeFile('/Users/fmaerten/data/meca/3d.ts', bufferOut, 'utf8', () => {})
